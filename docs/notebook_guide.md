@@ -1,6 +1,6 @@
 # Notebook Guide
 
-This guide cataloging every Jupyter notebook in the repository helps contributors select the appropriate entry point, understand required resources, and navigate original versus mixed-source experiments without running expensive computations first.
+This guide catalogs every Jupyter notebook in the repository to help contributors select the appropriate entry point, understand required resources, and navigate original versus mixed-source experiments without running expensive computations first.
 
 ---
 
@@ -25,15 +25,17 @@ For a clear progression through the methodology and experimental findings, we re
 | [`notebooks/02_exact_value_target_encoding.ipynb`](../notebooks/02_exact_value_target_encoding.ipynb) | Leak-free nested target encoding for repeated exact values and GPU-accelerated XGBoost | Raw competition data (`train.csv`, `test.csv`) | V3 OOF prediction artifacts, target-encoded feature tables | GPU (T4 recommended) | `medium` | `original` |
 | [`notebooks/03_nested_oof_stack_v5.ipynb`](../notebooks/03_nested_oof_stack_v5.ipynb) | Stability-aware greedy selection and rank-based stacking over original and audited public OOFs | Original OOF predictions + validated public OOF member files | V5 ensemble weights, blended OOF predictions, final submission file | CPU | `short` | `mixed-source` |
 | [`experiments/v6_raw_highbin_xgboost.ipynb`](../experiments/v6_raw_highbin_xgboost.ipynb) | Controlled diversity experiment studying histogram resolution (`max_bin=1024` vs `256`) as an encoding-starved control | Raw competition data (`train.csv`, `test.csv`) | Paired-fold OOF scores and comparison against V5 anchor | GPU (T4 recommended) | `medium` | `original` |
-| [`experiments/v7_oof_diversity.ipynb`](../experiments/v7_oof_diversity.ipynb) | Tabular neural network (RealMLP) and CatBoost lattice evaluation against strict gating criteria | Aligned OOF prediction files and engineered tabular features | RealMLP/CatBoost OOFs, rank-correlation matrix, gate verdict | GPU (T4 recommended) | `medium` | `original` |
+| [`experiments/v7_oof_diversity.ipynb`](../experiments/v7_oof_diversity.ipynb) | Tabular neural network (RealMLP) and CatBoost lattice evaluation against strict gating criteria | Aligned OOF prediction files and engineered tabular features | RealMLP/CatBoost OOFs, rank-correlation matrix, gate verdict | GPU (T4 recommended) | `medium` | `mixed-source`* |
 | [`kaggle/predicting_smartphone_addiction_validation_first.ipynb`](../kaggle/predicting_smartphone_addiction_validation_first.ipynb) | Self-contained, dual-runtime Kaggle edition replicating the V3 pipeline | Kaggle input directory (`/kaggle/input/playground-series-s6e8`) | In-notebook CV validation metrics and standalone submission | GPU (T4 / P100 on Kaggle) | `medium` | `original` |
+
+\* *Note on `v7_oof_diversity.ipynb`*: Classified as `mixed-source` because it imports prior V5 ensemble artifacts and can reference a credited community anchor for diversity gating, even though the newly trained RealMLP and CatBoost models themselves are original.
 
 ---
 
 ## 🏷️ Provenance Categories
 
 - **`original`**: End-to-end model training and feature engineering executed entirely within this repository.
-- **`mixed-source`**: Ensembles or comparative studies combining locally trained models with provenance-audited external out-of-fold prediction streams.
+- **`mixed-source`**: Ensembles or comparative studies combining locally trained models with provenance-audited external out-of-fold prediction streams, or experiments importing upstream artifacts with credited community anchors.
 - **`external/community`**: External prediction streams or benchmarks credited under open-source licenses and retained solely for reference without personal model claims.
 
 ---
